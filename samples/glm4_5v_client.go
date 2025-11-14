@@ -82,7 +82,7 @@ func ProcessVideoWithGLM45V(inputFilePath string, prompt string, outputFilePath 
 		return nil, fmt.Errorf("no video frames found in input file")
 	}
 
-	log.Printf("Extracted %d video frames from input file\n", len(frames))
+	log.Printf("  Extracted Frames:   %d\n", len(frames))
 
 	// 调用 GLM-4.5v API
 	response, err := CallGLM45V(apiKey, frames, prompt)
@@ -257,11 +257,11 @@ func WriteResponseToFile(response *GLM45VResponse, outputPath string) error {
 		return fmt.Errorf("marshal output failed: %v", err)
 	}
 
-	// 写入文件，追加换行符
+	// 写入文件,追加换行符
 	if _, err := file.WriteString(string(outputJSON) + "\n"); err != nil {
 		return fmt.Errorf("write to file failed: %v", err)
 	}
 
-	log.Printf("Response written to file: %s\n", outputPath)
+	log.Printf("  Output File:      %s\n", outputPath)
 	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/joho/godotenv"
@@ -39,6 +40,12 @@ func TestGLM45VVideoProcessing(t *testing.T) {
 	if _, err := os.Stat(inputFile); os.IsNotExist(err) {
 		t.Fatalf("Input file not found: %s", inputFile)
 	}
+	log.Println("\n" + strings.Repeat("=", 70))
+	log.Println("  GLM-4.5v Video Processing Test")
+	log.Println(strings.Repeat("=", 70))
+	log.Printf("  Input File:   %s\n", inputFile)
+	log.Printf("  Prompt:       %s\n", prompt)
+	log.Println(strings.Repeat("-", 70))
 
 	// 调用处理函数
 	response, err := ProcessVideoWithGLM45V(inputFile, prompt, outputFile)
@@ -52,14 +59,18 @@ func TestGLM45VVideoProcessing(t *testing.T) {
 	}
 
 	// 打印结果
-	log.Println("\n=== GLM-4.5v Response ===")
-	log.Println(response.Choices[0].Message.Content)
+	log.Println("\n" + strings.Repeat("=", 70))
+	log.Println("  GLM-4.5v Response")
+	log.Println(strings.Repeat("=", 70))
+	log.Printf("\n%s\n", response.Choices[0].Message.Content)
 
-	log.Println("\n=== Token Usage ===")
-	log.Printf("Prompt: %d | Completion: %d | Total: %d\n",
-		response.Usage.PromptTokens,
-		response.Usage.CompletionTokens,
-		response.Usage.TotalTokens)
+	log.Println("\n" + strings.Repeat("-", 70))
+	log.Println("  Token Usage Statistics")
+	log.Println(strings.Repeat("-", 70))
+	log.Printf("  Prompt Tokens:      %5d\n", response.Usage.PromptTokens)
+	log.Printf("  Completion Tokens:  %5d\n", response.Usage.CompletionTokens)
+	log.Printf("  Total Tokens:       %5d\n", response.Usage.TotalTokens)
+	log.Println(strings.Repeat("=", 70))
 
 	// 验证输出文件
 	if _, err := os.Stat(outputFile); os.IsNotExist(err) {
